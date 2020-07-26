@@ -1,0 +1,10 @@
+#CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake-build-debug/
+cmake_install.cmake
+Makefile
+
+#binaries for project
+bin/
+tests/bin/
