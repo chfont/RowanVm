@@ -20,7 +20,7 @@ TEST(VM_Tests, CounterTest){
   auto translator = translate::Translator();
   auto vm = vm::VirtualMachine(translator.translate(parser.parse()));
   vm.execute();
-  ASSERT_EQ(outputStream.str(), "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"); 
+  ASSERT_EQ(outputStream.str(), "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n");
   std::cout.rdbuf(oldBuffer);
 }
 
