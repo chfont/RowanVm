@@ -1,9 +1,9 @@
 #ifndef parser_test_h
 #define parser_test_h
 
-#include "parser.hpp"
+#include "Parser/parser.hpp"
 #include "gtest/gtest.h"
-#include "nop.hpp"
+#include "Parser/nop.hpp"
 
 
 TEST(ParserTests, ParseNop){

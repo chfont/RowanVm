@@ -1,8 +1,8 @@
 #ifndef parser_h
 #define parser_h
 
-#include "../Lexer/lexer.hpp"
-#include "../Lexer/token.hpp"
+#include "Lexer/lexer.hpp"
+#include "Lexer/token.hpp"
 #include "ast.hpp"
 #include <algorithm>
 #include <memory>

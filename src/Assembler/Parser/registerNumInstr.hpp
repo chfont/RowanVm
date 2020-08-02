@@ -2,7 +2,7 @@
 #define regnum_h
 
 #include "ast.hpp"
-#include "../../IntermediateData/emitHex.hpp"
+#include "IntermediateData/emitHex.hpp"
 
 namespace parser {
     class RegisterNumInstr : public AST {
@@ -21,9 +21,13 @@ namespace parser {
         }
 
         std::string emit() const override {
-          return EmitHex::EmitHexData::EmitOpcode(opcode) +
+          auto hexData = EmitHex::EmitHexData::EmitOpcode(opcode) +
                  EmitHex::EmitHexData::EmitRegister(registerName) +
                  EmitHex::EmitHexData::EmitInteger(number);
+          while (hexData.size() < 6){
+            hexData += char(0);
+          }
+          return hexData;
         }
 
     private:

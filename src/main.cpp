@@ -1,7 +1,9 @@
-#include "Assembler/Lexer/lexer.hpp"
-#include "Assembler/Lexer/token.hpp"
-#include "Assembler/Parser/parser.hpp"
-#include "vm.hpp"
+#include "IntermediateData/emitHex.hpp"
+#include "Lexer/lexer.hpp"
+#include "Lexer/token.hpp"
+#include "Parser/parser.hpp"
+#include "VirtualMachine/translator.hpp"
+#include "VirtualMachine/vm.hpp"
 #include <fstream>
 #include <iostream>
 int main(int argc, char *argv[]) {
@@ -13,12 +15,13 @@ int main(int argc, char *argv[]) {
   std::string content((std::istreambuf_iterator<char>(f)),
                       (std::istreambuf_iterator<char>()));
 
+    auto m = EmitHex::EmitHexData::EmitInteger("5");
+    auto h = EmitHex::EmitHexData::EmitInteger("10");
     auto parser = parser::Parser(content);
     auto nodes = parser.parse();
-    for(auto & node : nodes){
-        std::cout << node->emitDebugString() << std::endl;
-    }
-  /**auto vm = vm::VirtualMachine(content);
-  vm.execute();**/
+    auto translator = translate::Translator();
+    auto hex = translator.translate(nodes);
+    auto vm = vm::VirtualMachine(hex);
+    vm.execute();
   return 0;
 }

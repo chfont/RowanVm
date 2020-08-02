@@ -3,17 +3,17 @@
 
 namespace instruction {
 enum class Instruction {
-    ADD,
-    SUB,
-    MULT,
-    DIV,
-    CJUMP,
-    LOAD,
-    LOADCONST,
-    STORE,
-    PRINT,
-    PRINTB, //Boolean Print
-    NOP,
+    ADD = 0,
+    SUB = 1,
+    MULT = 2,
+    DIV = 3,
+    CJUMP = 4,
+    LOAD = 5,
+    STORE = 6,
+    PRINT = 7,
+    PRINTB = 8, //Boolean Print
+    NOP =9,
+    LOADCONST = 10,
     BAD //Illegal sequence
 
   };

@@ -1,7 +1,7 @@
 #ifndef nop_h
 #define nop_h
 
-#include "../../IntermediateData/emitHex.hpp"
+#include "IntermediateData/emitHex.hpp"
 #include "ast.hpp"
 #include <string>
 

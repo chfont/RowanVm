@@ -2,7 +2,7 @@
 #define single_reg_h
 
 #include "ast.hpp"
-#include "../../IntermediateData/emitHex.hpp"
+#include "IntermediateData/emitHex.hpp"
 
 namespace parser {
     class SingleRegInstr : public AST {

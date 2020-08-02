@@ -40,7 +40,7 @@ void VirtualMachine::execute() {
     }
     case instruction::Instruction::CJUMP: {
       auto cond = decodeCondition(program[programPointer++]);
-      auto cond_location = programPointer--;
+      auto cond_location = programPointer-1;
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       auto dest = getInt();

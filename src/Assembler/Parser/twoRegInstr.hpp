@@ -1,7 +1,7 @@
 #ifndef reginstr_h
 #define reginstr_h
 
-#include "../../IntermediateData/emitHex.hpp"
+#include "IntermediateData/emitHex.hpp"
 #include "ast.hpp"
 
 namespace parser {

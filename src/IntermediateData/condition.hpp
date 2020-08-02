@@ -10,8 +10,8 @@ namespace condition {
     NEQ,
     LT,
     GT,
-    GE,
     LE,
+    GE,
     BAD
   };
 

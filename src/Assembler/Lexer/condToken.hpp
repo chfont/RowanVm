@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "../../IntermediateData/condition.hpp"
+#include "IntermediateData/condition.hpp"
 #include "token.hpp"
 namespace token {
 class CondToken : public Token {

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "../../IntermediateData/condition.hpp"
+#include "IntermediateData/condition.hpp"
 #include "colonToken.hpp"
 #include "condToken.hpp"
 #include "labelToken.hpp"

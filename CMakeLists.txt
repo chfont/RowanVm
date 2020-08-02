@@ -3,10 +3,10 @@ project(RowanVM)
 
 set(CMAKE_CXX_STANDARD 14)
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 #Main executable
 add_executable(RowanVM src/main.cpp
-        src/vm.hpp src/vm.cpp
+        src/VirtualMachine/vm.hpp src/VirtualMachine/vm.cpp
         src/IntermediateData/instruction.hpp
         src/IntermediateData/condition.hpp
         src/Assembler/Lexer/lexer.hpp
@@ -30,6 +30,6 @@ add_executable(RowanVM src/main.cpp
         src/Assembler/Parser/condInstr.hpp
         src/VirtualMachine/translator.hpp
         src/VirtualMachine/translator.cpp
-        src/IntermediateData/emitHex.hpp)
+        src/IntermediateData/emitHex.hpp tests/translatorTests.hpp tests/vmTests.hpp)
 
-target_include_directories(RowanVM PUBLIC src/Assembler/Parser)
+target_include_directories(RowanVM PUBLIC src/Assembler/ src/)

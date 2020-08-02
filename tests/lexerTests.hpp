@@ -1,15 +1,15 @@
 #ifndef lextest_h
 #define lextest_h
 
-#include "../src/IntermediateData/condition.hpp"
-#include "colonToken.hpp"
-#include "condToken.hpp"
-#include "labelToken.hpp"
-#include "lexer.hpp"
-#include "numberToken.hpp"
-#include "opcodeToken.hpp"
-#include "registerToken.hpp"
-#include "token.hpp"
+#include "IntermediateData/condition.hpp"
+#include "Lexer/colonToken.hpp"
+#include "Lexer/condToken.hpp"
+#include "Lexer/labelToken.hpp"
+#include "Lexer/lexer.hpp"
+#include "Lexer/numberToken.hpp"
+#include "Lexer/opcodeToken.hpp"
+#include "Lexer/registerToken.hpp"
+#include "Lexer/token.hpp"
 #include "gtest/gtest.h"
 #include <array>
 

@@ -1,6 +1,6 @@
 #ifndef translator_h
 #define translator_h
-#include "ast.hpp"
+#include "Assembler/Parser/ast.hpp"
 #include <map>
 #include <memory>
 #include <string>

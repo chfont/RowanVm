@@ -1,7 +1,7 @@
 #ifndef cond_instr_h
 #define cond_instr_h
 
-#include "../../IntermediateData/emitHex.hpp"
+#include "IntermediateData/emitHex.hpp"
 #include "ast.hpp"
 
 namespace parser {

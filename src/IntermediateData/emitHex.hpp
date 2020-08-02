@@ -23,7 +23,7 @@ namespace EmitHex {
   };
 
   const auto ConditionMap = std::map<std::string,char> {
-      {"EmitHexData::EQ", char(condition::Condition::EQ)},
+      {"EQ", char(condition::Condition::EQ)},
       {"NEQ", char(condition::Condition::NEQ)},
       {"LE", char(condition::Condition::LE)},
       {"GE", char(condition::Condition::GE)},
@@ -60,12 +60,7 @@ public:
   static std::string EmitInteger(std::string number){
     try {
       auto num = std::stoi(number);
-      std::stringstream oss;
-      oss << std::hex << num;
-      auto hex = oss.str();
-      while (hex.size() < 4){
-        hex += char(0);
-      }
+      auto hex = (char *)(&num);
       return hex;
     }
     catch (...){
@@ -75,11 +70,11 @@ public:
     }
   }
 
-  static std::string EmitCondition(std::string cond){
+  static std::string EmitCondition(const std::string& cond){
     return std::string(1, ConditionMap.at(cond));
   }
 
-  static std::string EmitRegister(std::string reg){
+  static std::string EmitRegister(const std::string& reg){
     return std::string(1,RegisterMap.at(reg));
   }
 };

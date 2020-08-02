@@ -45,7 +45,7 @@ namespace translate {
         auto locBytes = (char *)(&loc);
         auto start= hole.first;
         for(int i =0; i < 4; i++){
-          hexData[start+i] = locBytes[4-i];
+          hexData[start+i] = locBytes[i];
         }
       } else {
         std::cerr << "Label " << hole.second << "not found" << std::endl;
