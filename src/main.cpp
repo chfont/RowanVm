@@ -1,5 +1,6 @@
 #include "Assembler/Lexer/lexer.hpp"
 #include "Assembler/Lexer/token.hpp"
+#include "Assembler/Parser/parser.hpp"
 #include "vm.hpp"
 #include <fstream>
 #include <iostream>
@@ -12,12 +13,11 @@ int main(int argc, char *argv[]) {
   std::string content((std::istreambuf_iterator<char>(f)),
                       (std::istreambuf_iterator<char>()));
 
-  auto lex = lexer::Lexer(content);
-  auto tok = lex.getNextToken();
-  while (tok != nullptr) {
-    std::cout << tok->emit() << std::endl;
-    tok = lex.getNextToken();
-  }
+    auto parser = parser::Parser(content);
+    auto nodes = parser.parse();
+    for(auto & node : nodes){
+        std::cout << node->emitDebugString() << std::endl;
+    }
   /**auto vm = vm::VirtualMachine(content);
   vm.execute();**/
   return 0;

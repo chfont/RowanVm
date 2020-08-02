@@ -8,7 +8,9 @@
 namespace token {
 class ColonToken : public Token {
 public:
-  std::string emit() const { return "COLON"; }
+    std::string emitDebugString() const override { return "COLON"; }
+    std::string emit() const override {return emitDebugString();}
+    TokenType getType() const override {return TokenType::COLON;}
 };
-} // namespace token
+}
 #endif

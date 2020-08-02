@@ -5,19 +5,19 @@
 #include <iostream>
 #include <utility>
 
-#include "../opcode.hpp"
 #include "token.hpp"
 namespace token {
 
 class OpcodeToken : public Token {
 public:
-  OpcodeToken(std::string code) { opcode = std::move(code); }
-  std::string emit() const { return "OPCODE: " + opcode; }
-
+  OpcodeToken(std::string code) { opcode = code;}
+  std::string emitDebugString() const override { return "OPCODE: " + opcode; }
+  std::string emit() const override {return opcode; }
+  TokenType getType() const override {return TokenType::OPCODE;}
 private:
   std::string opcode;
 };
 
-} // namespace token
+}
 
 #endif

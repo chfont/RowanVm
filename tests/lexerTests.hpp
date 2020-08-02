@@ -1,23 +1,25 @@
 #ifndef lextest_h
 #define lextest_h
 
-#include "lexer.hpp"
-#include "gtest/gtest.h"
-#include "token.hpp"
-#include "opcodeToken.hpp"
-#include "registerToken.hpp"
+#include "../src/IntermediateData/condition.hpp"
+#include "colonToken.hpp"
 #include "condToken.hpp"
 #include "labelToken.hpp"
+#include "lexer.hpp"
 #include "numberToken.hpp"
-#include "colonToken.hpp"
-#include "../src/condition.hpp"
+#include "opcodeToken.hpp"
+#include "registerToken.hpp"
+#include "token.hpp"
+#include "gtest/gtest.h"
 #include <array>
 
+using token_ptr = std::unique_ptr<token::Token>;
+
 TEST(Lexer_Test, ParseDiffRasm){
-    auto content = "ld ra 5\n"
-                   "ld rb 10\n"
-                   "ld rc 1\n"
-                   "ld rd 0\n"
+    auto content = "ldc ra 5\n"
+                   "ldc rb 10\n"
+                   "ldc rc 1\n"
+                   "ldc rd 0\n"
                    "LOOP:\n"
                    "cjump le rb ra END\n"
                    "add rd rc \n"
@@ -26,49 +28,69 @@ TEST(Lexer_Test, ParseDiffRasm){
                    "\n"
                    "END:\n"
                    "pr rd";
-    auto token = std::unique_ptr<token::Token>(new token::OpcodeToken("ld"));
     auto lex = lexer::Lexer(content);
-    auto tokens = std::array<std::unique_ptr<token::Token>,34> {
-            std::unique_ptr<token::Token>(new token::OpcodeToken("ld")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("ra")),
-            std::unique_ptr<token::Token>(new token::NumberToken("5")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("ld")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rb")),
-            std::unique_ptr<token::Token>(new token::NumberToken("10")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("ld")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rc")),
-            std::unique_ptr<token::Token>(new token::NumberToken("1")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("ld")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rd")),
-            std::unique_ptr<token::Token>(new token::NumberToken("0")),
-            std::unique_ptr<token::Token>(new token::LabelToken("loop")),
-            std::unique_ptr<token::Token>(new token::ColonToken()),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("cjump")),
-            std::unique_ptr<token::Token>(new token::CondToken(Condition::LE)),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rb")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("ra")),
-            std::unique_ptr<token::Token>(new token::LabelToken("end")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("add")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rd")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rc")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("sub")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rb")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rc")),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("cjump")),
-            std::unique_ptr<token::Token>(new token::CondToken(Condition::EQ)),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rd")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rd")),
-            std::unique_ptr<token::Token>(new token::LabelToken("loop")),
-            std::unique_ptr<token::Token>(new token::LabelToken("end")),
-            std::unique_ptr<token::Token>(new token::ColonToken()),
-            std::unique_ptr<token::Token>(new token::OpcodeToken("pr")),
-            std::unique_ptr<token::Token>(new token::RegisterToken("rd")),
+    auto tokens = std::array<token_ptr,34> {
+            token_ptr(new token::OpcodeToken("ldc")),
+            token_ptr(new token::RegisterToken("ra")),
+            token_ptr(new token::NumberToken("5")),
+            token_ptr(new token::OpcodeToken("ldc")),
+            token_ptr(new token::RegisterToken("rb")),
+            token_ptr(new token::NumberToken("10")),
+            token_ptr(new token::OpcodeToken("ldc")),
+            token_ptr(new token::RegisterToken("rc")),
+            token_ptr(new token::NumberToken("1")),
+            token_ptr(new token::OpcodeToken("ldc")),
+            token_ptr(new token::RegisterToken("rd")),
+            token_ptr(new token::NumberToken("0")),
+            token_ptr(new token::LabelToken("loop")),
+            token_ptr(new token::ColonToken()),
+            token_ptr(new token::OpcodeToken("cjump")),
+            token_ptr(new token::CondToken(condition::Condition::LE)),
+            token_ptr(new token::RegisterToken("rb")),
+            token_ptr(new token::RegisterToken("ra")),
+            token_ptr(new token::LabelToken("end")),
+            token_ptr(new token::OpcodeToken("add")),
+            token_ptr(new token::RegisterToken("rd")),
+            token_ptr(new token::RegisterToken("rc")),
+            token_ptr(new token::OpcodeToken("sub")),
+            token_ptr(new token::RegisterToken("rb")),
+            token_ptr(new token::RegisterToken("rc")),
+            token_ptr(new token::OpcodeToken("cjump")),
+            token_ptr(new token::CondToken(condition::Condition::EQ)),
+            token_ptr(new token::RegisterToken("rd")),
+            token_ptr(new token::RegisterToken("rd")),
+            token_ptr(new token::LabelToken("loop")),
+            token_ptr(new token::LabelToken("end")),
+            token_ptr(new token::ColonToken()),
+            token_ptr(new token::OpcodeToken("pr")),
+            token_ptr(new token::RegisterToken("rd")),
     };
     for(int i = 0; i < tokens.size(); i++){
         ASSERT_EQ(*(tokens[i]), *(lex.getNextToken()));
     }
 
     ASSERT_EQ(nullptr, lex.getNextToken());
+}
+
+TEST(Lexer_Test, LexNop){
+  auto code = "nop\n";
+  auto lex = lexer::Lexer(code);
+  ASSERT_EQ(*token_ptr(new token::OpcodeToken("nop")), *(lex.getNextToken()));
+  ASSERT_EQ(nullptr, lex.getNextToken());
+}
+
+TEST(Lexer_Test, LexStatement){
+  auto code = "ldc ra 500";
+  auto lex = lexer::Lexer(code);
+  auto expectedTokens = std::array<token_ptr,3>{
+      token_ptr(new token::OpcodeToken("ldc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("500"))
+  };
+  for(int i =0; i < expectedTokens.size(); i++){
+    ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
+  }
+  ASSERT_EQ(nullptr, lex.getNextToken());
 }
 
 #endif

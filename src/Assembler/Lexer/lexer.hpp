@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "../opcode.hpp"
 #include "token.hpp"
 
 namespace lexer {
@@ -33,6 +32,6 @@ const auto registers =
 const auto opcodes = std::vector<std::string>{
     "ldc", "ld", "st", "add", "mult", "div", "sub", "pr", "prb", "cjump", "nop",
 };
-} // namespace lexer
+}
 
 #endif

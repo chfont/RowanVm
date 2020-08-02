@@ -1,5 +1,4 @@
 #include "vm.hpp"
-#include "condition.hpp"
 #include <cstring>
 #include <iostream>
 
@@ -15,68 +14,68 @@ void VirtualMachine::execute() {
   while (programPointer < program.length()) {
     auto instr = decode(program[programPointer++]);
     switch (instr) {
-    case Instruction::ADD: {
+    case instruction::Instruction::ADD: {
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       registers[a] += registers[b];
       continue;
     }
-    case Instruction::SUB: {
+    case instruction::Instruction::SUB: {
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       registers[a] -= registers[b];
       continue;
     }
-    case Instruction::MULT: {
+    case instruction::Instruction::MULT: {
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       registers[a] *= registers[b];
       continue;
     }
-    case Instruction::DIV: {
+    case instruction::Instruction::DIV: {
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       registers[a] /= registers[b];
       continue;
     }
-    case Instruction::CJUMP: {
+    case instruction::Instruction::CJUMP: {
       auto cond = decodeCondition(program[programPointer++]);
       auto cond_location = programPointer--;
       auto a = program[programPointer++];
       auto b = program[programPointer++];
       auto dest = getInt();
       switch (cond) {
-      case Condition::EQ: {
+      case condition::Condition::EQ: {
         if (registers[a] == registers[b]) {
           programPointer = dest;
         }
         continue;
       }
-      case Condition::NEQ: {
+      case condition::Condition::NEQ: {
         if (registers[a] != registers[b]) {
           programPointer = dest;
         }
         continue;
       }
-      case Condition::LT: {
+      case condition::Condition::LT: {
         if (registers[a] < registers[b]) {
           programPointer = dest;
         }
         continue;
       }
-      case Condition::LE: {
+      case condition::Condition::LE: {
         if (registers[a] <= registers[b]) {
           programPointer = dest;
         }
         continue;
       }
-      case Condition::GT: {
+      case condition::Condition::GT: {
         if (registers[a] > registers[b]) {
           programPointer = dest;
         }
         continue;
       }
-      case Condition::GE: {
+      case condition::Condition::GE: {
         if (registers[a] >= registers[b]) {
           programPointer = dest;
         }
@@ -88,35 +87,35 @@ void VirtualMachine::execute() {
         return;
       }
     }
-    case Instruction::LOAD: {
+    case instruction::Instruction::LOAD: {
       auto a = program[programPointer++];
       auto integer = getInt();
       registers[a] = memory[integer];
       continue;
     }
-    case Instruction::STORE: {
+    case instruction::Instruction::STORE: {
       auto a = program[programPointer++];
       auto integer = getInt();
       memcpy(memory.begin() + integer,
              reinterpret_cast<char *>(&(registers[a])), 4);
       continue;
     }
-    case Instruction::PRINT: {
+    case instruction::Instruction::PRINT: {
       auto a = program[programPointer++];
       std::cout << registers[a] << std::endl;
       continue;
     }
-    case Instruction::PRINTB: {
+    case instruction::Instruction::PRINTB: {
       auto a = program[programPointer++];
-      std::cout << ((registers[a] > 0) ? true : false) << std::endl;
+      std::cout << ((registers[a] > 0) ? "true" : "false") << std::endl;
       continue;
     }
-    case Instruction::LOADCONST: {
+    case instruction::Instruction::LOADCONST: {
       auto a = program[programPointer++];
       auto integer = getInt();
       registers[a] = integer;
     }
-    case Instruction::NOP: {
+    case instruction::Instruction::NOP: {
       continue;
     }
     default:
@@ -127,32 +126,32 @@ void VirtualMachine::execute() {
   }
 }
 
-Instruction::Instruction VirtualMachine::decode(char byte) {
+instruction::Instruction VirtualMachine::decode(char byte) {
   switch (byte) {
   case 0:
-    return Instruction::ADD;
+    return instruction::Instruction::ADD;
   case 1:
-    return Instruction::SUB;
+    return instruction::Instruction::SUB;
   case 2:
-    return Instruction::MULT;
+    return instruction::Instruction::MULT;
   case 3:
-    return Instruction::DIV;
+    return instruction::Instruction::DIV;
   case 4:
-    return Instruction::CJUMP;
+    return instruction::Instruction::CJUMP;
   case 5:
-    return Instruction::LOAD;
+    return instruction::Instruction::LOAD;
   case 6:
-    return Instruction::STORE;
+    return instruction::Instruction::STORE;
   case 7:
-    return Instruction::PRINT;
+    return instruction::Instruction::PRINT;
   case 8:
-    return Instruction::PRINTB;
+    return instruction::Instruction::PRINTB;
   case 9:
-    return Instruction::NOP;
+    return instruction::Instruction::NOP;
   case 10:
-    return Instruction::LOADCONST;
+    return instruction::Instruction::LOADCONST;
   default:
-    return Instruction::BAD;
+    return instruction::Instruction::BAD;
   }
 }
 
@@ -164,23 +163,23 @@ int32_t VirtualMachine::getInt() {
   return a;
 }
 
-Condition::Condition VirtualMachine::decodeCondition(char byte) {
+condition::Condition VirtualMachine::decodeCondition(char byte) {
   switch (byte) {
   case 0:
-    return Condition::EQ;
+    return condition::Condition::EQ;
   case 1:
-    return Condition::NEQ;
+    return condition::Condition::NEQ;
   case 2:
-    return Condition::LT;
+    return condition::Condition::LT;
   case 3:
-    return Condition::GT;
+    return condition::Condition::GT;
   case 4:
-    return Condition::LE;
+    return condition::Condition::LE;
   case 5:
-    return Condition::GE;
+    return condition::Condition::GE;
   default:
-    return Condition::BAD;
+    return condition::Condition::BAD;
   }
 }
 
-} // namespace vm
+}

@@ -11,12 +11,13 @@
 namespace token {
 class RegisterToken : public Token {
 public:
-  RegisterToken(std::string regName) { registerName = std::move(regName); }
+  RegisterToken(std::string regName) { registerName = regName; }
 
-  std::string emit() const { return "REGISTER: " + registerName; }
-
+  std::string emitDebugString() const override { return "REGISTER: " + registerName; }
+  std::string emit() const override {return registerName;}
+  TokenType getType() const override {return TokenType::REG;}
 private:
   std::string registerName;
 };
-} // namespace token
+}
 #endif

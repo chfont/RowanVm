@@ -3,8 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "../../condition.hpp"
-#include "../opcode.hpp"
+#include "../../IntermediateData/condition.hpp"
 #include "colonToken.hpp"
 #include "condToken.hpp"
 #include "labelToken.hpp"
@@ -14,7 +13,7 @@
 
 namespace lexer {
 Lexer::Lexer(std::string input) {
-  program = input;
+  program = std::move(input);
   index = 0;
   lineNumber = 0;
   buffer = "";
@@ -81,9 +80,9 @@ std::unique_ptr<token::Token> Lexer::getNextToken() {
       if (std::find(opcodes.begin(), opcodes.end(), buffer) != opcodes.end()) {
         return std::unique_ptr<token::Token>(new token::OpcodeToken(buffer));
       }
-      if (Condition::stringCondMap.count(buffer) > 0) {
+      if (condition::stringCondMap.count(buffer) > 0) {
         return std::unique_ptr<token::Token>(
-            new token::CondToken(Condition::stringCondMap.at(buffer)));
+            new token::CondToken(condition::stringCondMap.at(buffer)));
       }
       return std::unique_ptr<token::Token>(new token::LabelToken(buffer));
     }

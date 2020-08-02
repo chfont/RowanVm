@@ -10,12 +10,13 @@
 namespace token {
 class NumberToken : public Token {
 public:
-  NumberToken(std::string s) { value = std::move(s); }
-  std::string emit() const { return "INT: " + value; }
-
+  NumberToken(std::string s) { value = s;}
+  std::string emitDebugString() const override { return "INT: " + value; }
+  std::string emit() const override {return value;}
+  TokenType getType() const override {return TokenType::NUM;}
 private:
   std::string value;
 };
-} // namespace token
+}
 
 #endif

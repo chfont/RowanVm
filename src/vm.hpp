@@ -1,10 +1,10 @@
 #ifndef vm_h
 #define vm_h
 
-#include <string>
+#include "IntermediateData/condition.hpp"
+#include "IntermediateData/instruction.hpp"
 #include <array>
-#include "instruction.hpp"
-#include "condition.hpp"
+#include <string>
 
 namespace vm {
 
@@ -24,9 +24,8 @@ namespace vm {
 
         uint32_t programPointer;
 
-        static Instruction::Instruction decode(char byte);
-        static Condition::Condition decodeCondition(char byte);
-        int16_t getShort();
+        static instruction::Instruction decode(char byte);
+        static condition::Condition decodeCondition(char byte);
         int32_t getInt();
     };
 }

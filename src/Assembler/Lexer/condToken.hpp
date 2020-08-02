@@ -3,20 +3,23 @@
 
 #include <iostream>
 
-#include "../../condition.hpp"
+#include "../../IntermediateData/condition.hpp"
 #include "token.hpp"
 namespace token {
 class CondToken : public Token {
 public:
-  CondToken(Condition::Condition cond) { condition = cond; }
+  CondToken(condition::Condition cond) { condition = cond;}
 
-  std::string emit() const {
-    return std::string("CONDITION: ") + Condition::condMap.at(condition);
+  std::string emitDebugString() const override {
+    return std::string("CONDITION: ") + condition::condMap.at(condition);
   }
-
+  std::string emit() const override {
+      return condition::condMap.at(condition);
+  }
+  TokenType getType() const override {return TokenType::COND;}
 private:
-  Condition::Condition condition;
+  condition::Condition condition;
 };
-} // namespace token
+}
 
 #endif

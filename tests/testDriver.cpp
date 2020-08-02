@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "lexerTests.hpp"
+#include "parserTests.hpp"
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

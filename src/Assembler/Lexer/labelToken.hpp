@@ -9,12 +9,13 @@
 namespace token {
 class LabelToken : public Token {
 public:
-  LabelToken(std::string s) { label = std::move(s); }
+  LabelToken(std::string s) { label = s;}
 
-  std::string emit() const { return "LABEL: " + label; }
-
+  std::string emitDebugString() const override { return "LABEL: " + label; }
+  std::string emit() const override {return label;}
+  TokenType getType() const override {return TokenType::LABEL;}
 private:
   std::string label;
 };
-} // namespace token
+}
 #endif
