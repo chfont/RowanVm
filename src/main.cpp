@@ -14,13 +14,11 @@ int main(int argc, char *argv[]) {
   auto f = std::ifstream(argv[1]);
   std::string content((std::istreambuf_iterator<char>(f)),
                       (std::istreambuf_iterator<char>()));
-
-    auto m = EmitHex::EmitHexData::EmitInteger("5");
-    auto h = EmitHex::EmitHexData::EmitInteger("10");
     auto parser = parser::Parser(content);
     auto nodes = parser.parse();
     auto translator = translate::Translator();
     auto hex = translator.translate(nodes);
+    auto h = EmitHex::EmitHexData::EmitInteger("500");
     auto vm = vm::VirtualMachine(hex);
     vm.execute();
   return 0;

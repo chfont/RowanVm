@@ -14,6 +14,10 @@ enum class Instruction {
     PRINTB = 8, //Boolean Print
     NOP =9,
     LOADCONST = 10,
+    ADDC,
+    SUBC,
+    MULTC,
+    DIVC,
     BAD //Illegal sequence
 
   };

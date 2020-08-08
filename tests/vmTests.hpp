@@ -24,4 +24,22 @@ TEST(VM_Tests, CounterTest){
   std::cout.rdbuf(oldBuffer);
 }
 
+TEST(VM_Tests, ConstArithTest){
+  const auto code = "ldc ra 500\n"
+                    "addc ra 52\n"
+                    "subc ra 52\n"
+                    "divc ra 5\n"
+                    "multc ra 2\n"
+                    "pr ra";
+  std::stringstream outputStream;
+  auto oldBuffer =std::cout.rdbuf(outputStream.rdbuf());
+  auto parser = parser::Parser(code);
+  auto translator = translate::Translator();
+  auto vm = vm::VirtualMachine(translator.translate(parser.parse()));
+  vm.execute();
+
+  ASSERT_EQ(outputStream.str(), "200\n");
+  std::cout.rdbuf(oldBuffer);
+}
+
 #endif

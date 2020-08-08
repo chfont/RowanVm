@@ -19,7 +19,11 @@ namespace EmitHex {
       {"pr", char(instruction::Instruction::PRINT)},
       {"prb", char(instruction::Instruction::PRINTB)},
       {"nop", char(instruction::Instruction::NOP)},
-      {"ldc", char(instruction::Instruction::LOADCONST)}
+      {"ldc", char(instruction::Instruction::LOADCONST)},
+      {"addc", char(instruction::Instruction::ADDC)},
+      { "subc",char(instruction::Instruction::SUBC)},
+      { "multc",char(instruction::Instruction::MULTC)},
+      {"divc",char(instruction::Instruction::DIVC)},
   };
 
   const auto ConditionMap = std::map<std::string,char> {

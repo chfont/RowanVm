@@ -42,3 +42,7 @@ Labels use the following syntax: `NAME:`, where NAME is the label name. These ar
 - cjump: Conditional jump. Evaluates condition, then jumps if satisfied. Ex: `cjump eq ra rb`
 - pr: Print. Takes one register, and prints its value to the console. Ex: `pr ra`
 - prb: Print as boolean. Takes one register, prints true if it is not 0, false otherwise. Ex: `prb ra`
+- addc: Addition. Takes a register and an integer, storing register + integer in the register. Ex: `addc ra 5`
+- subc: Subtraction. Takes a register and an integer, storing register - integer in the register. Ex: `subc ra 5`
+- multc: Multiplication. Takes a register and an integer, storing register * integer in the register. Ex: `multc ra 5`
+- divc: Division. Takes a register and an integer, storing register / integer in the register. Ex: `divc ra 5`

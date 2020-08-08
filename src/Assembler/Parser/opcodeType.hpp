@@ -24,7 +24,11 @@ namespace parser {
             {"mult", OpcodeType::TWO_REG},
             {"div", OpcodeType::TWO_REG},
             {"st", OpcodeType::REG_NUM},
-            {"ldc", OpcodeType::REG_NUM}
+            {"ldc", OpcodeType::REG_NUM},
+            {"addc", OpcodeType::REG_NUM},
+            {"subc", OpcodeType::REG_NUM},
+            {"multc", OpcodeType::REG_NUM},
+            {"divc", OpcodeType::REG_NUM}
     };
 }
 #endif

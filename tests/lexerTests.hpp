@@ -93,4 +93,34 @@ TEST(Lexer_Test, LexStatement){
   ASSERT_EQ(nullptr, lex.getNextToken());
 }
 
+TEST(Lexer_Test, LexConstArith){
+  const auto code = "ldc ra 500\n"
+              "addc ra 52\n"
+              "subc ra 52\n"
+              "divc ra 5\n"
+              "multc ra 2\n";
+  auto lex = lexer::Lexer(code);
+  const auto expectedTokens = std::array<token_ptr, 15>{
+      token_ptr(new token::OpcodeToken("ldc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("500")),
+      token_ptr(new token::OpcodeToken("addc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("52")),
+      token_ptr(new token::OpcodeToken("subc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("52")),
+      token_ptr(new token::OpcodeToken("divc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("5")),
+      token_ptr(new token::OpcodeToken("multc")),
+      token_ptr(new token::RegisterToken("ra")),
+      token_ptr(new token::NumberToken("2")),
+  };
+  for(int i =0; i < expectedTokens.size(); i++){
+    ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
+  }
+  ASSERT_EQ(nullptr, lex.getNextToken());
+}
+
 #endif
