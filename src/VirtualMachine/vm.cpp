@@ -141,6 +141,10 @@ void VirtualMachine::execute() {
       registers[reg] *= integer;
       continue;
     }
+    case instruction::Instruction::JUMP: {
+      programPointer = getInt();
+      continue;
+    }
     case instruction::Instruction::NOP: {
       continue;
     }

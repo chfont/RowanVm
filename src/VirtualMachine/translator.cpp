@@ -27,6 +27,7 @@ namespace translate {
       addToLabelDeclaration(node->emitLabel(), hexData.size());
       break;
     }
+    case parser::ASTType::LabelInstr:
     case parser::ASTType::Conditional: {
       hexData += node->emit();
       addToHoles(node->emitLabel(), hexData.size()-4);

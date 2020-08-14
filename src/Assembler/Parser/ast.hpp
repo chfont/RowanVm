@@ -10,7 +10,8 @@ namespace parser {
       TwoRegInstr,
       Conditional,
       RegNum,
-      Label
+      Label,
+      LabelInstr
     };
 
     class AST {

@@ -123,4 +123,26 @@ TEST(Lexer_Test, LexConstArith){
   ASSERT_EQ(nullptr, lex.getNextToken());
 }
 
+TEST(Lexer_Test, LexJumps){
+    const auto code = "JUMP END\n"
+                      "CJUMP EQ ra ra END\n"
+                      "END:\n";
+    auto lex  = lexer::Lexer(code);
+    const auto expectedTokens = std::array<token_ptr,9>{
+        token_ptr(new token::OpcodeToken("jump")),
+        token_ptr(new token::LabelToken("end")),
+        token_ptr(new token::OpcodeToken("cjump")),
+        token_ptr(new token::CondToken(condition::Condition::EQ)),
+        token_ptr(new token::RegisterToken("ra")),
+        token_ptr(new token::RegisterToken("ra")),
+        token_ptr(new token::LabelToken("end")),
+        token_ptr(new token::LabelToken("end")),
+        token_ptr(new token::ColonToken())
+    };
+    for(int i =0; i < expectedTokens.size(); i++){
+        ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
+    }
+    ASSERT_EQ(nullptr, lex.getNextToken());
+}
+
 #endif

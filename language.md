@@ -24,6 +24,7 @@ Instructions/Opcodes are classified into several types:
 - Nop: the nop instruction (does nothing)
 - Register and Number: instruction followed by register, then a number
 - Conditional: Conditional jump instruction
+- Label Instruction: instruction followed by label name
 
 #### Labels
 
@@ -40,6 +41,7 @@ Labels use the following syntax: `NAME:`, where NAME is the label name. These ar
 - div: Division. Takes two registers, and computes first / second (Integer division), storing the result in the first. Ex: `div ra rb`
 - nop: No-op. This instruction does nothing (takes up one execution cycle)
 - cjump: Conditional jump. Evaluates condition, then jumps if satisfied. Ex: `cjump eq ra rb`
+- jump: Unconditional jump. Ex `jump LABEL`
 - pr: Print. Takes one register, and prints its value to the console. Ex: `pr ra`
 - prb: Print as boolean. Takes one register, prints true if it is not 0, false otherwise. Ex: `prb ra`
 - addc: Addition. Takes a register and an integer, storing register + integer in the register. Ex: `addc ra 5`

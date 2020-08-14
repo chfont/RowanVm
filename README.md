@@ -1,6 +1,6 @@
 # Rowan VM
 
-Rowan is a small assembly language and virtual machine developed as a project intended for becoming familiar with implementing these technologies. The assembly language is very small, with only 15 instructions, meaning that while you can implement many things, it is not always easy due to needing workarounds for some actions. In the future, I plan to extend the instruction set and virtual machine in order to support more common actions and optimize execution. 
+Rowan is a small assembly language and virtual machine developed as a project intended for becoming familiar with implementing these technologies. The assembly language is very small, with only 16 instructions, meaning that while you can implement many things, it is not always easy due to needing workarounds for some actions. In the future, I plan to extend the instruction set and virtual machine in order to support more common actions and optimize execution. 
 
 #### Building / Installing
 
@@ -14,7 +14,7 @@ To run unit tests, simply run the executable built for unit tests, with no argum
 
 #### Assembly Language
 
-The assembly language is a small RISC-based language, with only 15 instructions at this time. Comments are written as in other common assembly languages: `; A comment is a semicolon followed by text, going until the end of the line`.
+The assembly language is a small RISC-based language, with 16 instructions at this time. Comments are written as in other common assembly languages: `; A comment is a semicolon followed by text, going until the end of the line`.
 
 ```
 ;This is an example program, to show the syntax of the language

@@ -18,6 +18,7 @@ enum class Instruction {
     SUBC,
     MULTC,
     DIVC,
+    JUMP,
     BAD //Illegal sequence
 
   };

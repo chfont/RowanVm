@@ -1,6 +1,8 @@
 #ifndef parser_test_h
 #define parser_test_h
 
+#include <Parser/labelInstr.hpp>
+#include <Parser/labelAst.hpp>
 #include "Parser/parser.hpp"
 #include "gtest/gtest.h"
 #include "Parser/nop.hpp"
@@ -35,7 +37,20 @@ TEST(ParserTests, ParseConstArith){
   for(int i =0; i < expectedNodes.size(); i++){
     ASSERT_EQ( *(expectedNodes[i]), *(nodes[i]));
   }
+}
 
+TEST(ParserTests, ParseJump){
+    const auto code = "JUMP END\n"
+                      "END:\n";
+    auto expectedNodes = std::array<std::unique_ptr<parser::AST>,2>{
+            std::unique_ptr<parser::AST>(new parser::LabelInstr("jump", "end")),
+                    std::unique_ptr<parser::AST>(new parser::Label("end"))
+    };
+    auto nodes = parser::Parser(code).parse();
+    ASSERT_EQ(nodes.size(), expectedNodes.size());
+    for(int i =0; i < expectedNodes.size(); i++){
+        ASSERT_EQ( *(expectedNodes[i]), *(nodes[i]));
+    }
 }
 
 #endif

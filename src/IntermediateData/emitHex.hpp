@@ -24,6 +24,7 @@ namespace EmitHex {
       { "subc",char(instruction::Instruction::SUBC)},
       { "multc",char(instruction::Instruction::MULTC)},
       {"divc",char(instruction::Instruction::DIVC)},
+      {"jump", char(instruction::Instruction::JUMP)},
   };
 
   const auto ConditionMap = std::map<std::string,char> {

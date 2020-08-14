@@ -31,7 +31,7 @@ const auto registers =
 
 const auto opcodes = std::vector<std::string>{
     "ldc", "ld", "st", "add", "mult", "div", "sub", "pr", "prb", "cjump", "nop",
-    "addc", "multc", "divc", "subc"
+    "addc", "multc", "divc", "subc","jump"
 };
 }
 

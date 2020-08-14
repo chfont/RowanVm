@@ -10,7 +10,8 @@ namespace parser {
         REG_NUM,
         NOP,
         CONDITIONAL,
-        ONE_REG
+        ONE_REG,
+        JUMP
     };
 
     static std::map<std::string, OpcodeType> OpcodeMap {
@@ -28,7 +29,8 @@ namespace parser {
             {"addc", OpcodeType::REG_NUM},
             {"subc", OpcodeType::REG_NUM},
             {"multc", OpcodeType::REG_NUM},
-            {"divc", OpcodeType::REG_NUM}
+            {"divc", OpcodeType::REG_NUM},
+            {"jump", OpcodeType::JUMP}
     };
 }
 #endif

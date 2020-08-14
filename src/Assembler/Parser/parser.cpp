@@ -1,6 +1,7 @@
 #include "parser.hpp"
 #include "condInstr.hpp"
 #include "labelAst.hpp"
+#include "labelInstr.hpp"
 #include "nop.hpp"
 #include "opcodeType.hpp"
 #include "registerNumInstr.hpp"
@@ -136,6 +137,13 @@ namespace parser {
                 }
                 auto label = nextTok->emit();
                 return std::unique_ptr<AST>(new CondInstr(instruction, condition, regNameOne, regNameTwo, label));
+            }
+            case OpcodeType::JUMP: {
+              auto nextTok = lexer.getNextToken();
+              if(! assertTokenType(nextTok, token::TokenType::LABEL)){
+                return nullptr;
+              }
+              return std::unique_ptr<AST>(new LabelInstr(instruction, nextTok->emit()));
             }
             default:
               return nullptr;
