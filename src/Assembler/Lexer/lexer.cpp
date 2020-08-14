@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "IntermediateData/condition.hpp"
+#include "IntermediateData/opcodeData.hpp"
 #include "colonToken.hpp"
 #include "condToken.hpp"
 #include "labelToken.hpp"
@@ -77,7 +78,7 @@ std::unique_ptr<token::Token> Lexer::getNextToken() {
           registers.end()) {
         return std::unique_ptr<token::Token>(new token::RegisterToken(buffer));
       }
-      if (std::find(opcodes.begin(), opcodes.end(), buffer) != opcodes.end()) {
+      if (opcodeData::Opcodes.count(buffer)) {
         return std::unique_ptr<token::Token>(new token::OpcodeToken(buffer));
       }
       if (condition::stringCondMap.count(buffer) > 0) {

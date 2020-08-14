@@ -3,29 +3,11 @@
 
 #include "condition.hpp"
 #include "instruction.hpp"
+#include "opcodeData.hpp"
 #include <iostream>
 #include <map>
 #include <string>
 namespace EmitHex {
-
-  const auto OpcodeMap = std::map<std::string, char> {
-      {"add", char(instruction::Instruction::ADD)},
-      { "sub",char(instruction::Instruction::SUB)},
-      { "mult",char(instruction::Instruction::MULT)},
-      {"div",char(instruction::Instruction::DIV)},
-      {"cjump", char(instruction::Instruction::CJUMP)},
-      {"ld", char(instruction::Instruction::LOAD)},
-      {"st", char(instruction::Instruction::STORE)},
-      {"pr", char(instruction::Instruction::PRINT)},
-      {"prb", char(instruction::Instruction::PRINTB)},
-      {"nop", char(instruction::Instruction::NOP)},
-      {"ldc", char(instruction::Instruction::LOADCONST)},
-      {"addc", char(instruction::Instruction::ADDC)},
-      { "subc",char(instruction::Instruction::SUBC)},
-      { "multc",char(instruction::Instruction::MULTC)},
-      {"divc",char(instruction::Instruction::DIVC)},
-      {"jump", char(instruction::Instruction::JUMP)},
-  };
 
   const auto ConditionMap = std::map<std::string,char> {
       {"EQ", char(condition::Condition::EQ)},
@@ -59,7 +41,7 @@ public:
   EmitHexData() = delete;
 
   static char EmitOpcode(std::string opcode){
-    return OpcodeMap.at(opcode);
+    return opcodeData::Opcodes.at(opcode).encoding;
   }
 
   static std::string EmitInteger(std::string number){

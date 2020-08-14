@@ -25,12 +25,11 @@ add_executable(RowanVM src/main.cpp
         src/Assembler/Parser/nop.hpp
         src/Assembler/Parser/parser.cpp
         src/Assembler/Parser/labelAst.hpp
-        src/Assembler/Parser/opcodeType.hpp
         src/Assembler/Parser/singleRegInstr.hpp
         src/Assembler/Parser/registerNumInstr.hpp
         src/Assembler/Parser/condInstr.hpp
         src/VirtualMachine/translator.hpp
         src/VirtualMachine/translator.cpp
-        src/IntermediateData/emitHex.hpp tests/translatorTests.hpp tests/vmTests.hpp src/Assembler/Parser/labelInstr.hpp)
+        src/IntermediateData/emitHex.hpp tests/translatorTests.hpp tests/vmTests.hpp src/Assembler/Parser/labelInstr.hpp src/IntermediateData/opcodeData.hpp)
 
 target_include_directories(RowanVM PUBLIC src/Assembler/ src/)

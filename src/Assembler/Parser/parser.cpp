@@ -3,10 +3,10 @@
 #include "labelAst.hpp"
 #include "labelInstr.hpp"
 #include "nop.hpp"
-#include "opcodeType.hpp"
 #include "registerNumInstr.hpp"
 #include "singleRegInstr.hpp"
 #include "twoRegInstr.hpp"
+#include "IntermediateData/opcodeData.hpp"
 #include <iostream>
 #include <utility>
 
@@ -69,11 +69,11 @@ namespace parser {
             throw std::logic_error("Invalid call to parse opcode");
         }
         auto instruction = opcodeTok->emit();
-        auto opType = OpcodeMap[instruction];
+        auto opType = opcodeData::Opcodes.at(instruction).type;
         switch (opType){
-            case OpcodeType::NOP:
+            case opcodeData::OpcodeType::NOP:
                 return std::unique_ptr<AST>(new Nop());
-            case OpcodeType::ONE_REG: {
+            case opcodeData::OpcodeType::ONE_REG: {
                 auto nextTok = lexer.getNextToken();
                 if(! assertTokenType(nextTok,token::TokenType::REG)){
                     return nullptr;
@@ -81,7 +81,7 @@ namespace parser {
                 auto regNameOne = nextTok->emit();
                 return std::unique_ptr<AST>( new SingleRegInstr(instruction,regNameOne));
             }
-            case OpcodeType::TWO_REG: {
+            case opcodeData::OpcodeType::TWO_REG: {
                 auto nextTok = lexer.getNextToken();
                 if(! assertTokenType(nextTok,token::TokenType::REG)){
                     return nullptr;
@@ -96,7 +96,7 @@ namespace parser {
                 return std::unique_ptr<AST>(new twoRegInstr(instruction,regNameOne, regNameTwo));
             }
 
-            case OpcodeType::REG_NUM: {
+            case opcodeData::OpcodeType::REG_NUM: {
                 auto nextTok = lexer.getNextToken();
                 if(! assertTokenType(nextTok,token::TokenType::REG)){
                     return nullptr;
@@ -112,7 +112,7 @@ namespace parser {
                 return std::unique_ptr<AST>(new RegisterNumInstr(instruction, regNameOne, num));
             }
 
-            case OpcodeType::CONDITIONAL: {
+            case opcodeData::OpcodeType::CONDITIONAL: {
                 auto nextTok = lexer.getNextToken();
                 if(! assertTokenType(nextTok, token::TokenType::COND)){
                     return nullptr;
@@ -138,7 +138,7 @@ namespace parser {
                 auto label = nextTok->emit();
                 return std::unique_ptr<AST>(new CondInstr(instruction, condition, regNameOne, regNameTwo, label));
             }
-            case OpcodeType::JUMP: {
+            case opcodeData::OpcodeType::JUMP: {
               auto nextTok = lexer.getNextToken();
               if(! assertTokenType(nextTok, token::TokenType::LABEL)){
                 return nullptr;
