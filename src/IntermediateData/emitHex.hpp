@@ -48,7 +48,9 @@ public:
     try {
       auto num = std::stoi(number);
       auto hex = (char *)(&num);
-      return hex;
+      char data[4];
+      std::copy(hex, hex+4,data); //Ensure 4 byte copy
+      return data;
     }
     catch (...){
       auto exceptionPointer = std::current_exception();

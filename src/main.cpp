@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
     auto nodes = parser.parse();
     auto translator = translate::Translator();
     auto hex = translator.translate(nodes);
-    auto h = EmitHex::EmitHexData::EmitInteger("500");
     auto vm = vm::VirtualMachine(hex);
     vm.execute();
   return 0;

@@ -145,4 +145,17 @@ TEST(Lexer_Test, LexJumps){
     ASSERT_EQ(nullptr, lex.getNextToken());
 }
 
+TEST(Lexer_Test, LexNumbers){
+    const auto text = "500 -92";
+    auto lex = lexer::Lexer(text);
+    const auto expectedTokens = std::array<token_ptr,2>{
+        token_ptr(new token::NumberToken("500")),
+        token_ptr(new token::NumberToken("-92"))
+    };
+
+    for(int i =0; i < expectedTokens.size(); i++){
+        ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
+    }
+    ASSERT_EQ(nullptr, lex.getNextToken());
+}
 #endif

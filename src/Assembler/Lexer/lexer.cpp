@@ -43,7 +43,7 @@ std::unique_ptr<token::Token> Lexer::getNextToken() {
   if (*nextChar == ':') {
     return std::unique_ptr<token::Token>(new token::ColonToken());
   }
-  if (isdigit(*nextChar)) {
+  if (isdigit(*nextChar) || *nextChar == '-') {
     buffer += *nextChar;
     nextChar = getNextChar();
     while (nextChar != nullptr && !isspace(*nextChar) && isdigit(*nextChar)) {
