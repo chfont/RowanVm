@@ -18,7 +18,11 @@ int main(int argc, char *argv[]) {
     auto nodes = parser.parse();
     auto translator = translate::Translator();
     auto hex = translator.translate(nodes);
-    auto vm = vm::VirtualMachine(hex);
-    vm.execute();
+    if(translator.validate_attributes()){
+      auto vm = vm::VirtualMachine(hex, translator.getAttributes());
+      vm.execute();
+    } else {
+      std::cout << "Invalid attributes declared" << std::endl;
+    }
   return 0;
 }

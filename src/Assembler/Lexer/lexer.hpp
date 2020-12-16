@@ -29,5 +29,4 @@ const auto registers =
     std::vector<std::string>{"ra", "rb", "rc", "rd", "re", "rf", "rg", "rh",
                              "ri", "rj", "rk", "rl", "rm", "rn", "ro", "rp"};
 }
-
 #endif

@@ -19,6 +19,7 @@ namespace parser {
 
         std::unique_ptr<AST> parseLabel(std::unique_ptr<token::Token> label);
         std::unique_ptr<AST> parseOpcode(std::unique_ptr<token::Token> opcode);
+        std::unique_ptr<AST> parseAttribute();
         bool assertTokenType(std::unique_ptr<token::Token> const& token, token::TokenType type);
         const std::array<std::string, 6> types {
                 "number",

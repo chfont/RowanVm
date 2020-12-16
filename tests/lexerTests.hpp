@@ -4,6 +4,7 @@
 #include "IntermediateData/condition.hpp"
 #include "Lexer/colonToken.hpp"
 #include "Lexer/condToken.hpp"
+#include "Lexer/braceToken.hpp"
 #include "Lexer/labelToken.hpp"
 #include "Lexer/lexer.hpp"
 #include "Lexer/numberToken.hpp"
@@ -157,5 +158,24 @@ TEST(Lexer_Test, LexNumbers){
         ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
     }
     ASSERT_EQ(nullptr, lex.getNextToken());
+}
+
+TEST(Lexer_Test, LexAttributes){
+  const auto text = "{ stack_size 5 }\n{ mem_size 2 }";
+  auto lex = lexer::Lexer(text);
+  const auto expectedTokens = std::array<token_ptr, 8>{
+      token_ptr(new token::LBraceToken()),
+      token_ptr(new token::LabelToken("stack_size")),
+      token_ptr(new token::NumberToken("5")),
+      token_ptr(new token::RBraceToken()),
+      token_ptr(new token::LBraceToken()),
+      token_ptr(new token::LabelToken("mem_size")),
+      token_ptr(new token::NumberToken("2")),
+      token_ptr(new token::RBraceToken()),
+  };
+  for(int i =0; i < expectedTokens.size(); i++){
+    ASSERT_EQ(*(expectedTokens[i]), *(lex.getNextToken()));
+  }
+  ASSERT_EQ(nullptr, lex.getNextToken());
 }
 #endif

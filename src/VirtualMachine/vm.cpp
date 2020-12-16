@@ -4,11 +4,25 @@
 #include <utility>
 
 namespace vm {
-VirtualMachine::VirtualMachine(std::string hexData) {
+VirtualMachine::VirtualMachine(std::string hexData, const std::map<std::string, uint64_t>& attributes) {
   program = std::move(hexData);
   registers = std::array<int, 16>{0};
-  memory = std::array<char, 1024>{0};
+  memory = std::vector<char>();
+  stack = std::vector<char>();
   programPointer = 0;
+  for(auto& attr : attributes){
+    if (attr.first == "mem_size"){
+      memory.resize(attr.second * 4, 0);
+    } else if (attr.first == "stack_size"){
+      stack.resize(attr.second * 4, 0);
+    }
+  }
+  if(memory.empty()){
+    memory.resize(4096,0);
+  }
+  if(stack.empty()){
+    stack.resize(512, 0);
+  }
 }
 
 void VirtualMachine::execute() {
@@ -97,7 +111,7 @@ void VirtualMachine::execute() {
     case instruction::Instruction::STORE: {
       auto reg = program[programPointer++];
       auto integer = getInt();
-      memcpy(memory.begin() + integer,
+      memcpy(&(memory[integer]),
              reinterpret_cast<char *>(&(registers[reg])), 4);
       continue;
     }

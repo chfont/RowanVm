@@ -10,7 +10,9 @@ namespace token {
         OPCODE,
         REG,
         COND,
-        COLON
+        COLON,
+        LBRACE,
+        RBRACE
     };
 
 class Token {

@@ -18,7 +18,7 @@ TEST(VM_Tests, CounterTest){
   auto oldBuffer =std::cout.rdbuf(outputStream.rdbuf());
   auto parser = parser::Parser(code);
   auto translator = translate::Translator();
-  auto vm = vm::VirtualMachine(translator.translate(parser.parse()));
+  auto vm = vm::VirtualMachine(translator.translate(parser.parse()),translator.getAttributes());
   vm.execute();
   ASSERT_EQ(outputStream.str(), "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n");
   std::cout.rdbuf(oldBuffer);
@@ -35,11 +35,22 @@ TEST(VM_Tests, ConstArithTest){
   auto oldBuffer =std::cout.rdbuf(outputStream.rdbuf());
   auto parser = parser::Parser(code);
   auto translator = translate::Translator();
-  auto vm = vm::VirtualMachine(translator.translate(parser.parse()));
+  auto vm = vm::VirtualMachine(translator.translate(parser.parse()), translator.getAttributes());
   vm.execute();
 
   ASSERT_EQ(outputStream.str(), "200\n");
   std::cout.rdbuf(oldBuffer);
+}
+
+TEST(VM_Tests, Attributes){
+  const auto code = "{ stack_size 5 }\n{ mem_size 2 }";
+  auto parser = parser::Parser(code);
+  auto translator = translate::Translator();
+  auto hex = translator.translate(parser.parse());
+  auto vm = vm::VirtualMachine(hex, translator.getAttributes());
+
+  ASSERT_EQ(vm.getMemSize(), 8);
+  ASSERT_EQ(vm.getStackSize(), 20);
 }
 
 #endif

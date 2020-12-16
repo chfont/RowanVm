@@ -1,9 +1,12 @@
 #include "translator.hpp"
+#include "attributes.hpp"
+#include <Parser/attribute.hpp>
+#include <algorithm>
 #include <iostream>
-
 namespace translate {
   Translator::Translator() noexcept{
     hexData = "";
+    attributes = std::map<std::string, uint64_t>();
     labelDeclarations = std::map<std::string, uint64_t>();
     labelHoles = std::vector<std::pair<uint64_t , std::string>>();
   }
@@ -55,10 +58,34 @@ namespace translate {
   }
 
   std::string Translator::translate(const std::vector<std::unique_ptr<parser::AST>> &nodes) {
+    translateAttributes(nodes);
     for(const auto & node : nodes){
-      translateLine(node);
+      if(node->getType() != parser::ASTType::Attribute){
+        translateLine(node);
+      }
     }
     fillHoles();
     return hexData;
   }
+
+  void Translator::translateAttributes(const std::vector<std::unique_ptr<parser::AST>> &nodes) {
+    for (auto& node : nodes){
+      if (node->getType() == parser::ASTType::Attribute){
+        auto raw_ptr = node.get();
+        auto cast_node = static_cast<parser::Attribute*>(raw_ptr);
+        attributes[cast_node->getAttributeName()]=cast_node->getAttributeValue();
+      }
+    }
+  }
+
+  bool Translator::validate_attributes(){
+    for(auto & attribute : attributes){
+      if(std::find(validAttributes.begin(), validAttributes.end(), attribute.first) == validAttributes.end()){
+        return false;
+      }
+    }
+    return true;
+  }
+  std::map<std::string, uint64_t> Translator::getAttributes(){ return attributes;}
+
 }

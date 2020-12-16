@@ -11,7 +11,8 @@ namespace parser {
       Conditional,
       RegNum,
       Label,
-      LabelInstr
+      LabelInstr,
+      Attribute
     };
 
     class AST {

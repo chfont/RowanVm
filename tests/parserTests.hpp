@@ -7,6 +7,7 @@
 #include "gtest/gtest.h"
 #include "Parser/nop.hpp"
 #include "Parser/registerNumInstr.hpp"
+#include "Parser/attribute.hpp"
 
 
 TEST(ParserTests, ParseNop){
@@ -51,6 +52,20 @@ TEST(ParserTests, ParseJump){
     for(int i =0; i < expectedNodes.size(); i++){
         ASSERT_EQ( *(expectedNodes[i]), *(nodes[i]));
     }
+}
+
+TEST(ParserTests, ParseAttributes){
+  const auto text = "{ stack_size 5 }\n{ mem_size 2 }";
+  auto expectedNodes = std::array<std::unique_ptr<parser::AST>, 2>{
+      std::unique_ptr<parser::AST>(new parser::Attribute("stack_size", 5)),
+      std::unique_ptr<parser::AST>(new parser::Attribute("mem_size", 2)),
+  };
+  auto nodes = parser::Parser(text).parse();
+  std::cout << nodes.size() << std::endl;
+  ASSERT_EQ(nodes.size(), expectedNodes.size());
+  for(int i =0; i < expectedNodes.size(); i++){
+    ASSERT_EQ(*(expectedNodes[i]), *(nodes[i]));
+  }
 }
 
 #endif

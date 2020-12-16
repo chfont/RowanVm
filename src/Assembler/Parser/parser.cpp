@@ -7,6 +7,7 @@
 #include "singleRegInstr.hpp"
 #include "twoRegInstr.hpp"
 #include "IntermediateData/opcodeData.hpp"
+#include "attribute.hpp"
 #include <iostream>
 #include <utility>
 
@@ -28,10 +29,17 @@ namespace parser {
                     break;
                 }
                 case token::TokenType::OPCODE:{
-                    //TODO: Parse Opcodes
                     auto node = parseOpcode((std::move(nextToken)));
                     if(node == nullptr){
                         return nodes;
+                    }
+                    nodes.push_back(std::move(node));
+                    break;
+                }
+                case token::TokenType::LBRACE:{
+                    auto node = parseAttribute();
+                    if (node == nullptr){
+                      return nodes;
                     }
                     nodes.push_back(std::move(node));
                     break;
@@ -148,6 +156,32 @@ namespace parser {
             default:
               return nullptr;
         }
+    }
+
+    std::unique_ptr<AST> Parser::parseAttribute(){
+      //take in attribute
+      auto attrToken = lexer.getNextToken();
+      if(!assertTokenType(attrToken, token::TokenType::LABEL)){
+        std::cerr << "Unexpected construct, expected string" << std::endl;
+        return nullptr;
+      }
+      //take in value
+      auto valueToken = lexer.getNextToken();
+      if(!assertTokenType(valueToken, token::TokenType::NUM)){
+        std::cerr << "Unexpected construct, expected number" << std::endl;
+        return nullptr;
+      }
+      // get RBRACE
+      auto braceToken = lexer.getNextToken();
+      if(!assertTokenType(braceToken, token::TokenType::RBRACE)){
+        std::cerr << "Expected '{', got " + braceToken->emitDebugString() << std::endl;
+        return nullptr;
+      }
+      if(valueToken->emit()[0] == '-'){
+        std::cerr << "Invalid value for attribute, must be > 0" << std::endl;
+        return nullptr;
+      }
+      return std::make_unique<parser::Attribute>(attrToken->emit(), std::stoull(valueToken->emit()));
     }
 
     bool Parser::assertTokenType(std::unique_ptr<token::Token> const& token, token::TokenType type){

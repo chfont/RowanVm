@@ -1,6 +1,7 @@
 #include "lexer.hpp"
 
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 #include "IntermediateData/condition.hpp"
@@ -11,6 +12,7 @@
 #include "numberToken.hpp"
 #include "opcodeToken.hpp"
 #include "registerToken.hpp"
+#include "braceToken.hpp"
 
 namespace lexer {
 Lexer::Lexer(std::string input) {
@@ -18,6 +20,10 @@ Lexer::Lexer(std::string input) {
   index = 0;
   lineNumber = 0;
   buffer = "";
+}
+
+bool isbrace(char c){
+  return c == '{' || c == '}';
 }
 
 std::unique_ptr<token::Token> Lexer::getNextToken() {
@@ -41,52 +47,52 @@ std::unique_ptr<token::Token> Lexer::getNextToken() {
     nextChar = getNextChar();
   }
   if (*nextChar == ':') {
-    return std::unique_ptr<token::Token>(new token::ColonToken());
-  }
-  if (isdigit(*nextChar) || *nextChar == '-') {
+    return std::make_unique<token::ColonToken>();
+  } else if (*nextChar == '{') {
+    return std::make_unique<token::LBraceToken>();
+  } else if (*nextChar == '}') {
+    return std::make_unique<token::RBraceToken>();
+  } else if (isdigit(*nextChar) || *nextChar == '-') {
     buffer += *nextChar;
     nextChar = getNextChar();
     while (nextChar != nullptr && !isspace(*nextChar) && isdigit(*nextChar)) {
       buffer += *nextChar;
       nextChar = getNextChar();
     }
-    if (nextChar != nullptr && !isdigit(*nextChar) && !isspace(*nextChar)) {
+    if (nextChar != nullptr && !isdigit(*nextChar) && !isspace(*nextChar) &&
+        !isbrace(*nextChar)) {
       std::cout << "Unrecognizable construct at line " << index << std::endl;
       return nullptr;
     } else {
-      return std::unique_ptr<token::Token>(new token::NumberToken(buffer));
+      return std::make_unique<token::NumberToken>(buffer);
     }
-  }
-  if (isalpha(*nextChar)) {
+  } else if (isalpha(*nextChar)) {
     buffer += *nextChar;
     nextChar = getNextChar();
-    while (nextChar != nullptr && !isspace(*nextChar) && isalpha(*nextChar)) {
+    while (nextChar != nullptr && !isspace(*nextChar) &&
+           (isalpha(*nextChar) || *nextChar == '_')) {
       buffer += *nextChar;
       nextChar = getNextChar();
     }
-    if (nextChar != nullptr && !isalpha(*nextChar) && !isspace(*nextChar) &&
-        *nextChar != ':') {
-      std::cout << "Unrecognizable construct at line " << index << std::endl;
-      return nullptr;
-    } else {
-      if (nextChar != nullptr && *nextChar == ':') {
-        index--;
-      }
-      std::transform(buffer.begin(), buffer.end(), buffer.begin(),
-                     [](unsigned char c) { return std::tolower(c); });
-      if (std::find(registers.begin(), registers.end(), buffer) !=
-          registers.end()) {
-        return std::unique_ptr<token::Token>(new token::RegisterToken(buffer));
-      }
-      if (opcodeData::Opcodes.count(buffer)) {
-        return std::unique_ptr<token::Token>(new token::OpcodeToken(buffer));
-      }
-      if (condition::stringCondMap.count(buffer) > 0) {
-        return std::unique_ptr<token::Token>(
-            new token::CondToken(condition::stringCondMap.at(buffer)));
-      }
-      return std::unique_ptr<token::Token>(new token::LabelToken(buffer));
+    if (nextChar != nullptr && *nextChar == ':') {
+      index--;
     }
+    std::transform(buffer.begin(), buffer.end(), buffer.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+    if (std::find(registers.begin(), registers.end(), buffer) !=
+        registers.end()) {
+      return std::make_unique<token::RegisterToken>(buffer);
+    }
+    if (opcodeData::Opcodes.count(buffer)) {
+      return std::make_unique<token::OpcodeToken>(buffer);
+    }
+    if (condition::stringCondMap.count(buffer) > 0) {
+      return std::make_unique<token::CondToken>(
+          condition::stringCondMap.at(buffer));
+    }
+    return std::make_unique<token::LabelToken>(buffer);
+  } else {
+    return nullptr; //should error handle?
   }
 }
 
