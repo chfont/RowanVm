@@ -165,14 +165,21 @@ void VirtualMachine::execute() {
     }
     case instruction::Instruction::PUSH: {
       auto reg = program[programPointer++];
-      memcpy(&(stack[stack_index]), reinterpret_cast<char *>( & (registers[reg])), 4 );
-      stack_index += 4;
+      pushWord(registers[reg]);
       continue;
     }
     case instruction::Instruction::POP: {
       auto reg = program[programPointer++];
-      stack_index -=4;
-      memcpy(reinterpret_cast<char *>( & (registers[reg])), &(stack[stack_index]), 4);
+      registers[reg] = popWord();
+      continue;
+    }
+    case instruction::Instruction::CALL: {
+      pushWord(programPointer+4);
+      programPointer = getInt();
+      continue;
+    }
+    case instruction::Instruction::RET: {
+      programPointer = popWord();
       continue;
     }
     default:
@@ -181,6 +188,18 @@ void VirtualMachine::execute() {
       return;
     }
   }
+}
+
+void VirtualMachine::pushWord(int32_t word){
+  memcpy(&(stack[stack_index]), reinterpret_cast<char *>( & (word)), 4 );
+  stack_index += 4;
+}
+
+int32_t VirtualMachine::popWord(){
+  int32_t res;
+  stack_index -=4;
+  memcpy(reinterpret_cast<char *>( &res), &(stack[stack_index]), 4);
+  return res;
 }
 
 instruction::Instruction VirtualMachine::decode(char byte) {

@@ -28,7 +28,8 @@ namespace vm {
 
         uint32_t programPointer;
         uint64_t stack_index;
-
+        void pushWord(int32_t);
+        int32_t popWord();
         static instruction::Instruction decode(char byte);
         static condition::Condition decodeCondition(char byte);
         int32_t getInt();

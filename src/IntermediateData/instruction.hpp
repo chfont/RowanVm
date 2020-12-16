@@ -21,6 +21,8 @@ enum class Instruction {
     JUMP,
     PUSH,
     POP,
+    CALL,
+    RET,
     BAD //Illegal sequence
 
   };

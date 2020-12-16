@@ -8,6 +8,7 @@
 #include "twoRegInstr.hpp"
 #include "IntermediateData/opcodeData.hpp"
 #include "attribute.hpp"
+#include "noRegInstr.hpp"
 #include <iostream>
 #include <utility>
 
@@ -152,6 +153,9 @@ namespace parser {
                 return nullptr;
               }
               return std::unique_ptr<AST>(new LabelInstr(instruction, nextTok->emit()));
+            }
+            case opcodeData::OpcodeType::NO_REG: {
+              return std::unique_ptr<AST>(new NoRegInstr(instruction));
             }
             default:
               return nullptr;

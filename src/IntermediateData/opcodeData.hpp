@@ -14,7 +14,8 @@ namespace opcodeData {
     NOP,
     CONDITIONAL,
     ONE_REG,
-    JUMP
+    JUMP,
+    NO_REG
   };
 
   struct OpcodeData{
@@ -40,7 +41,9 @@ namespace opcodeData {
       {"nop", OpcodeData{OpcodeType::NOP,char(instruction::Instruction::NOP)}},
       {"jump", OpcodeData{OpcodeType::JUMP,char(instruction::Instruction::JUMP)}},
       {"push", OpcodeData{OpcodeType::ONE_REG, char(instruction::Instruction::PUSH)}},
-      {"pop", OpcodeData{OpcodeType::ONE_REG, char(instruction::Instruction::POP)}}
+      {"pop", OpcodeData{OpcodeType::ONE_REG, char(instruction::Instruction::POP)}},
+      {"call", OpcodeData{OpcodeType::JUMP, char(instruction::Instruction::CALL)}},
+      {"ret", OpcodeData{OpcodeType::NO_REG, char(instruction::Instruction::RET)}},
   };
 }
 #endif
