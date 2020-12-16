@@ -9,6 +9,7 @@ VirtualMachine::VirtualMachine(std::string hexData, const std::map<std::string, 
   registers = std::array<int, 16>{0};
   memory = std::vector<char>();
   stack = std::vector<char>();
+  stack_index = 0;
   programPointer = 0;
   for(auto& attr : attributes){
     if (attr.first == "mem_size"){
@@ -160,6 +161,18 @@ void VirtualMachine::execute() {
       continue;
     }
     case instruction::Instruction::NOP: {
+      continue;
+    }
+    case instruction::Instruction::PUSH: {
+      auto reg = program[programPointer++];
+      memcpy(&(stack[stack_index]), reinterpret_cast<char *>( & (registers[reg])), 4 );
+      stack_index += 4;
+      continue;
+    }
+    case instruction::Instruction::POP: {
+      auto reg = program[programPointer++];
+      stack_index -=4;
+      memcpy(reinterpret_cast<char *>( & (registers[reg])), &(stack[stack_index]), 4);
       continue;
     }
     default:

@@ -19,6 +19,8 @@ enum class Instruction {
     MULTC,
     DIVC,
     JUMP,
+    PUSH,
+    POP,
     BAD //Illegal sequence
 
   };

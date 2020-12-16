@@ -27,6 +27,7 @@ namespace vm {
         std::string program;
 
         uint32_t programPointer;
+        uint64_t stack_index;
 
         static instruction::Instruction decode(char byte);
         static condition::Condition decodeCondition(char byte);

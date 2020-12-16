@@ -39,6 +39,8 @@ namespace opcodeData {
       {"cjump", OpcodeData{OpcodeType::CONDITIONAL,char(instruction::Instruction::CJUMP)}},
       {"nop", OpcodeData{OpcodeType::NOP,char(instruction::Instruction::NOP)}},
       {"jump", OpcodeData{OpcodeType::JUMP,char(instruction::Instruction::JUMP)}},
+      {"push", OpcodeData{OpcodeType::ONE_REG, char(instruction::Instruction::PUSH)}},
+      {"pop", OpcodeData{OpcodeType::ONE_REG, char(instruction::Instruction::POP)}}
   };
 }
 #endif
