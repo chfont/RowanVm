@@ -1,5 +1,13 @@
 # Language Specification
 
+### Attributes 
+The language currently supports 2 attributes, which change the virtual machine's structure.
+Syntax: `{ attribute_name value }`, where value is a positive integer.
+
+stack_size: Number of words to use for the stack. A word is 4 bytes. Default is 512 bytes.
+
+mem_size: Number of words (4 bytes) to use for the memory. Default is 4kB.
+
 #### Registers
 
 There are 16 registers, each of which can hold an integer (4 bytes). Registers are named by r[letter],
@@ -48,3 +56,7 @@ Labels use the following syntax: `NAME:`, where NAME is the label name. These ar
 - subc: Subtraction. Takes a register and an integer, storing register - integer in the register. Ex: `subc ra 5`
 - multc: Multiplication. Takes a register and an integer, storing register * integer in the register. Ex: `multc ra 5`
 - divc: Division. Takes a register and an integer, storing register / integer in the register. Ex: `divc ra 5`
+- push: Push a word (4 bytes) onto the stack. Ex: `push ra`
+- pop: Pop a word (4 bytes) from the stack. Ex: `pop ra`
+- call: Execute subroutine at a given label. Ex: `call DOUBLE`
+- ret: Return from subroutine. NOTE: Call pushes the next instruction's location onto the stack. The ret instruction pops this into the program counter.
