@@ -15,6 +15,10 @@ namespace parser {
         std::string emit() const override{
           return std::string(1,EmitHex::EmitHexData::EmitOpcode("nop"));
         }
+
+        size_t size() const override {
+            return 1;
+        }
     };
 }
 #endif

@@ -15,6 +15,10 @@ namespace parser {
       virtual ASTType getType() const override {return ASTType::Nop;}
       virtual std::string emit() const override {
         return std::string(1,EmitHex::EmitHexData::EmitOpcode(opcode));}
+
+      size_t size() const override {
+          return 1;
+      }
   };
 }
 #endif

@@ -23,15 +23,17 @@ namespace parser {
         }
 
         std::string emitLabel() const override {
-          return jumpLabel;
+            return jumpLabel;
         }
-
         std::string emit() const override {
           return EmitHex::EmitHexData::EmitOpcode(opcode) +
                  EmitHex::EmitHexData::EmitCondition(condition) +
                  EmitHex::EmitHexData::EmitRegister(registerOne) +
                  EmitHex::EmitHexData::EmitRegister(registerTwo) +
                  char(0) + char(0) + char(0)+char(0); //Pad 4 bytes for label
+        }
+        size_t size() const override {
+            return 8;
         }
     private:
         std::string opcode;

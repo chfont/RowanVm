@@ -23,6 +23,10 @@ namespace parser {
         }
         virtual ASTType getType() const = 0;
         virtual std::string emit() const = 0;
+        virtual size_t size() const {
+            return 0;
+        }
+        virtual ~AST() = default;
     };
 
     inline bool operator== (const AST &lhs, const AST &rhs){

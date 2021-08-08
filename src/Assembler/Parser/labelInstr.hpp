@@ -24,6 +24,10 @@ namespace parser {
       std::string emitLabel() const override {
         return label;
       }
+
+      size_t size() const override {
+          return 5;
+      }
     private:
       std::string opcode;
       std::string label;

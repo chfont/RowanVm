@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "Lexer/lexer.hpp"
 #include "Parser/parser.hpp"
-#include "VirtualMachine/translator.hpp"
+#include "VirtualMachine/Translation/translator.hpp"
 
 bool areEqual(std::string s, std::string s2){
     if(s.size() != s2.size()){

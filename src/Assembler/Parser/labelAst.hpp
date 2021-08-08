@@ -24,7 +24,9 @@ namespace parser {
           return "";
         }
 
-
+        size_t size() const override {
+            return 0;
+        }
     private:
         std::string name;
     };

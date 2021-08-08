@@ -23,6 +23,10 @@ namespace parser {
                  EmitHex::EmitHexData::EmitRegister(regOne) +
                  EmitHex::EmitHexData::EmitRegister(regTwo);
         }
+
+        size_t size() const override {
+            return 3;
+        }
     private:
         std::string regOne;
         std::string regTwo;

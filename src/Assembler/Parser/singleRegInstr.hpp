@@ -21,6 +21,10 @@ namespace parser {
           return EmitHex::EmitHexData::EmitOpcode(opcode) +
                  EmitHex::EmitHexData::EmitRegister(registerName);
         }
+
+        size_t size() const override {
+            return 2;
+        }
     private:
         std::string registerName;
         std::string opcode;

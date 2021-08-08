@@ -13,6 +13,7 @@ namespace translate {
     std::string translate(std::vector<std::unique_ptr<parser::AST>> const& nodes);
     std::map<std::string, uint64_t> getAttributes();
     bool validate_attributes();
+    bool writeToFile(const std::string& file_name);
   private:
     void translateLine(std::unique_ptr<parser::AST> const& node);
     void fillHoles();
@@ -22,6 +23,7 @@ namespace translate {
     void addToHoles(std::string label, uint64_t location);
     bool addToLabelDeclaration(const std::string& label, uint64_t location);
     std::string hexData;
+    uint64_t length;
     std::map<std::string, uint64_t> attributes;
   };
 }

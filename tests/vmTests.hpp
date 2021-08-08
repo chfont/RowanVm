@@ -3,7 +3,7 @@
 
 #include "Assembler/Parser/parser.hpp"
 #include "gtest/gtest.h"
-#include <VirtualMachine/translator.hpp>
+#include <VirtualMachine/Translation/translator.hpp>
 #include <VirtualMachine/vm.hpp>
 TEST(VM_Tests, CounterTest){
   auto code ="ldc ra 10\n"

@@ -30,6 +30,10 @@ namespace parser {
           return hexData;
         }
 
+        size_t size() const override {
+            return 6;
+        }
+
     private:
         std::string opcode;
         std::string registerName;
